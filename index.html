@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Buimeen">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#ffe9c7">
+<link rel="apple-touch-icon" id="touchIcon" href="">
+<title>Buimeen</title>
+<style>
+  :root{--bg1:#fff1d6;--bg2:#e3f6ec;--card:#ffffff;--text:#3a3550;--muted:#8a849c;--green:#43b97f;--peach:#ffa56b;--grey:#ece8f3;--accent:#ff7a8a;--accent2:#7c6cf0;--warm:#fff6e5;--gold:#e8a93c}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;min-height:100vh;font-family:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;color:var(--text);line-height:1.45;touch-action:manipulation;
+       padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  .wrap{max-width:520px;margin:0 auto;padding:12px 14px calc(56px + env(safe-area-inset-bottom))}
+  body.locked .wrap{display:none}
+  .card{background:var(--card);border-radius:26px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(124,108,240,.10);position:relative}
+  h1{font-size:1.65rem;margin:6px 0 4px;text-align:center}
+  .paws{text-align:center;font-size:1.1rem;letter-spacing:6px;opacity:.7;margin-bottom:12px}
+  h2{font-size:1.12rem;margin:0 0 10px}
+  .hero{text-align:center;background:linear-gradient(180deg,#fffaf0,#f1fbf5);overflow:hidden;padding-top:26px}
+  .dog{display:block;width:min(330px,84%);margin:0 auto;cursor:pointer;user-select:none;-webkit-user-select:none}
+  .dog svg{width:100%;height:auto;display:block;overflow:visible}
+  #gHead{transform-origin:150px 170px;animation:tilt 4.5s ease-in-out infinite}
+  @keyframes tilt{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+  #gTongue{transform-box:fill-box;transform-origin:50% 0%;animation:pant 1.1s ease-in-out infinite}
+  @keyframes pant{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.07)}}
+  .dog.bounce{animation:hop .6s ease 3}
+  @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+  .name{font-size:1.15rem;font-weight:800;margin-top:6px}
+  .supporter{margin:10px auto 2px;background:#fff0f4;border-radius:14px;padding:9px 12px;font-size:.95rem;max-width:95%}
+  .pack{font-size:1.5rem;min-height:1.9rem;margin-top:4px;letter-spacing:2px}
+  .big{font-size:3.6rem;font-weight:800;color:var(--green);line-height:1.1}
+  .big.zero{color:var(--accent2)}
+  .sub{color:var(--muted);font-size:.92rem;margin-top:2px}
+  .msg{margin-top:10px;font-size:1.02rem;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 8px;text-align:center}
+  .stat{background:#faf7ff;border-radius:16px;padding:10px 2px}
+  .stat b{display:block;font-size:1.4rem;color:var(--accent2)}
+  .stat span{font-size:.74rem;color:var(--muted)}
+  label.chk{display:flex;gap:12px;align-items:center;padding:14px 12px;min-height:58px;border:2px solid var(--grey);border-radius:16px;margin-bottom:8px;cursor:pointer;font-size:1.02rem}
+  label.chk input{width:28px;height:28px;flex:none;accent-color:var(--green)}
+  label.chk small{display:block;color:var(--muted)}
+  label.chk .solo{font-size:1.6rem}
+  .core{border-color:#bfe8d3;background:#f4fcf8}
+  .row{display:flex;gap:10px;align-items:center;margin:12px 0}
+  .row label{min-width:112px;font-size:.94rem}
+  input[type=range]{flex:1;height:34px;accent-color:var(--accent2)}
+  input[type=date],input[type=text],select,textarea{width:100%;padding:12px;border:2px solid var(--grey);border-radius:14px;font:inherit;font-size:16px;background:#fff;color:var(--text);min-height:50px}
+  input[type=text]{margin-bottom:8px}
+  textarea{resize:vertical;min-height:76px}
+  .section-title{font-weight:800;margin:18px 0 6px}
+  button{font:inherit;font-weight:800;border:0;border-radius:16px;padding:13px 18px;min-height:50px;background:linear-gradient(135deg,var(--accent),#ff9a76);color:#fff;cursor:pointer}
+  button:active{transform:scale(.97)}
+  button.sec{background:var(--grey);color:var(--text)}
+  button.danger{background:transparent;color:#d26a6a;padding:4px 8px;min-height:38px;font-weight:700}
+  button:disabled{opacity:.45}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cell{aspect-ratio:1;border-radius:50%;background:var(--grey);font-size:.8rem;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;font-weight:800}
+  .cell.ok{background:var(--green);font-size:1.1rem}
+  .cell.slip{background:var(--peach)}
+  .cell.none{color:var(--muted)}
+  .cell.now{outline:3px solid var(--accent2);outline-offset:1px}
+  .legend{font-size:.8rem;color:var(--muted);margin-top:10px}
+  .hist{border-top:2px dashed var(--grey);padding:10px 0}
+  .hist:first-child{border-top:0}
+  .hist .top{display:flex;justify-content:space-between;align-items:center}
+  .tag{font-size:.76rem;padding:2px 10px;border-radius:20px;color:#fff}
+  .tag.ok{background:var(--green)} .tag.slip{background:var(--peach)}
+  .meta{font-size:.86rem;color:var(--muted)}
+  .note{font-size:.94rem;margin-top:4px;white-space:pre-wrap}
+  .grat{font-size:.96rem;margin-top:4px}
+  .safety{background:var(--warm);font-size:.96rem}
+  .reminder{background:#fff0f2;font-size:.96rem;display:none}
+  .random{background:#f3f0ff;border-radius:14px;padding:12px;margin-top:10px;font-size:.96rem;display:none}
+  details summary{cursor:pointer;font-weight:800;margin-bottom:8px;min-height:34px}
+  .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#3a3550;color:#fff;padding:12px 18px;border-radius:16px;opacity:0;transition:.3s;pointer-events:none;max-width:90%;z-index:20;text-align:center}
+  .toast.show{opacity:1}
+  .conf{position:fixed;top:-50px;font-size:2rem;animation:fall 2.8s ease-in forwards;pointer-events:none;z-index:30}
+  @keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+
+  .bones{font-size:1.5rem;font-weight:800;color:var(--gold)}
+  .bar{height:12px;background:var(--grey);border-radius:8px;overflow:hidden;margin:4px 0 2px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#8fe0b6);border-radius:8px;transition:width .3s}
+  .quest{margin-bottom:12px}
+  .quest .qt{display:flex;justify-content:space-between;font-size:.95rem;font-weight:700}
+  .quest .qt span{color:var(--muted)}
+  .quest.done .qt{color:var(--green)}
+  .gift{display:flex;align-items:center;gap:12px;padding:10px 12px;border:2px solid var(--grey);border-radius:16px;margin-bottom:8px}
+  .gift.locked{opacity:.5}
+  .gift.ready{border-color:#ffd9a3;background:#fff8ec;animation:glowp 2s ease-in-out infinite}
+  @keyframes glowp{0%,100%{box-shadow:0 0 0 rgba(232,169,60,0)}50%{box-shadow:0 0 14px rgba(232,169,60,.45)}}
+  .gift .gi{font-size:1.7rem;flex:none}
+  .gift .gb{flex:1}
+  .gift b{display:block;font-size:.96rem}
+  .gift span{font-size:.8rem;color:var(--muted)}
+  .gift button{min-height:42px;padding:8px 14px}
+  .giftbanner{background:#fff8ec;border:2px dashed #ffd9a3}
+  .pal{display:flex;gap:12px;align-items:center;padding:11px 4px;border-top:2px dashed var(--grey);cursor:pointer;border-radius:10px}
+  .pal:first-child{border-top:0}
+  .pal:active{background:#faf7ff}
+  .pal .av{font-size:1.9rem;flex:none;width:48px;text-align:center}
+  .pal b{display:block;font-size:.98rem}
+  .pal span{font-size:.84rem;color:var(--muted)}
+  .pal .go{margin-left:auto;color:var(--muted);font-size:1.1rem}
+  .shopitem{display:flex;align-items:center;gap:10px;padding:8px 10px;border:2px solid var(--grey);border-radius:14px;margin-bottom:8px}
+  .shopitem .si{font-size:1.5rem;flex:none}
+  .shopitem .sb{flex:1;font-size:.95rem;font-weight:700}
+  .shopitem .sb small{display:block;color:var(--muted);font-weight:600}
+  .shopitem button{min-height:40px;padding:7px 14px}
+  .shopitem button.on{background:linear-gradient(135deg,var(--green),#7ad6a6)}
+  .scene{background:#f1fbf5;border-radius:16px;padding:14px;margin-bottom:10px;text-align:center}
+  .scene .art{font-size:1.7rem;letter-spacing:4px;line-height:1.7}
+  .scene .cap{font-size:.88rem;color:var(--muted);margin-top:4px}
+  .gamebox{background:#f3f0ff;border-radius:16px;padding:14px;margin-top:10px}
+  .letters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+  .letters button{width:52px;height:52px;min-height:52px;padding:0;font-size:1.3rem;background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(124,108,240,.18)}
+  #modal{position:fixed;inset:0;background:rgba(58,53,80,.5);display:none;align-items:center;justify-content:center;z-index:60;padding:18px}
+  #modal.show{display:flex}
+  #modalCard{background:#fff;border-radius:26px;padding:24px 20px;max-width:430px;width:100%;max-height:82vh;overflow:auto;text-align:center}
+  #modalCard .mi{font-size:3rem}
+  #modalCard h3{margin:8px 0 10px}
+  #modalCard .body{text-align:left;white-space:pre-wrap;font-size:1rem;background:#faf7ff;border-radius:16px;padding:14px}
+  #annikkaBox{background:#fff0f4;border:2px solid #ffd3de;border-radius:14px;padding:12px;margin-top:10px;font-size:.95rem;display:none;white-space:pre-wrap}
+
+  #lock{position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;background:linear-gradient(160deg,var(--bg1),var(--bg2));
+        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;
+        padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+  #lock.hide{display:none}
+  #lock .face{font-size:4.2rem;line-height:1}
+  #dots{display:flex;gap:16px;justify-content:center;margin:18px 0 8px}
+  #dots i{display:block;width:18px;height:18px;border-radius:50%;border:2px solid var(--accent2)}
+  #dots i.on{background:var(--accent2)}
+  #dots.shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+  #lockMsg{min-height:1.4rem;font-weight:700;color:var(--accent2);font-size:.95rem}
+  #pad{display:grid;grid-template-columns:repeat(3,78px);gap:14px;margin-top:14px}
+  #pad button{width:78px;height:78px;min-height:78px;border-radius:50%;padding:0;font-size:1.7rem;background:#fff;color:var(--text);box-shadow:0 3px 10px rgba(124,108,240,.15)}
+  #pad button.blank{visibility:hidden}
+  #pad button.del{background:transparent;box-shadow:none;font-size:1.5rem}
+</style>
+</head>
+<body class="locked">
+
+<!-- Lock screen -->
+<div id="lock">
+  <div class="face">🐶</div>
+  <h1>Buimeen</h1>
+  <div class="sub" id="lockSub">Enter your passcode</div>
+  <div id="dots"><i></i><i></i><i></i><i></i></div>
+  <div id="lockMsg"></div>
+  <div id="pad"></div>
+</div>
+
+<!-- Modal (gifts / letters / profiles) -->
+<div id="modal">
+  <div id="modalCard">
+    <div class="mi" id="modalIcon">🎁</div>
+    <h3 id="modalTitle"></h3>
+    <div class="body" id="modalBody"></div>
+    <div class="btns" style="justify-content:center"><button id="modalClose">Close 💛</button></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>🐶 Buimeen 🦴</h1>
+  <div class="paws">🐾 🐾 🐾 🐾 🐾</div>
+
+  <div class="card reminder" id="reminder">
+    <b>🦴 Time to save a backup.</b> <span id="reminderText"></span>
+    <div class="btns"><button id="reminderBtn">Copy backup now</button></div>
+  </div>
+
+  <div class="card giftbanner" id="giftBanner" style="display:none">
+    <b>🎁 You have a gift waiting from the pack!</b>
+    <div class="btns"><button id="giftBannerBtn">Open it</button></div>
+  </div>
+
+  <div class="card hero">
+    <span style="position:absolute;left:14px;top:12px;font-size:1.7rem">🦴</span>
+    <span style="position:absolute;right:14px;top:12px;font-size:1.7rem">🎾</span>
+    <div class="dog" id="dog">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 310" role="img" aria-label="Buimeen the smiling golden retriever">
+        <path d="M58 188 C46 240 78 282 110 292 L120 278 L132 298 L150 284 L168 298 L180 278 L190 292 C222 282 254 240 242 188 Z" fill="#e1aa57"/>
+        <path d="M104 244 L120 278 L132 298 L150 284 L168 298 L180 278 L196 244 Z" fill="#f7e2b2"/>
+        <g id="accScarf" display="none">
+          <path d="M86 234 Q150 266 214 234 L214 254 Q150 288 86 254 Z" fill="#43b97f"/>
+          <rect x="176" y="248" width="20" height="42" rx="8" fill="#43b97f"/>
+          <path d="M176 284 l4 8 M186 286 l4 8" stroke="#2a8a5a" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g id="gBandana" display="none">
+          <path d="M84 222 Q150 262 216 222 L150 300 Z" fill="#e5484d"/>
+          <path d="M84 222 Q150 262 216 222" stroke="#c93338" stroke-width="4" fill="none"/>
+          <circle cx="122" cy="248" r="4" fill="#fff"/><circle cx="178" cy="248" r="4" fill="#fff"/><circle cx="150" cy="274" r="4" fill="#fff"/>
+        </g>
+        <g id="accBow" display="none">
+          <path d="M150 262 L118 246 L118 278 Z" fill="#ff7a8a"/>
+          <path d="M150 262 L182 246 L182 278 Z" fill="#ff7a8a"/>
+          <circle cx="150" cy="262" r="9" fill="#e5484d"/>
+        </g>
+        <g id="accBall" display="none">
+          <circle cx="259" cy="281" r="22" fill="#d7f251" stroke="#b7cf33" stroke-width="2"/>
+          <path d="M241 269 Q259 281 241 295 M277 269 Q259 281 277 295" stroke="#fff" stroke-width="3" fill="none"/>
+        </g>
+        <g id="gHead">
+          <path d="M74 70 C30 64 12 140 34 202 C46 234 82 218 92 170 C100 130 102 90 74 70Z" fill="#c98d3a"/>
+          <path d="M226 70 C270 64 288 140 266 202 C254 234 218 218 208 170 C200 130 198 90 226 70Z" fill="#c98d3a"/>
+          <path d="M60 92 C48 128 48 170 58 198" stroke="#b27726" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M240 92 C252 128 252 170 242 198" stroke="#b27726" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="150" cy="140" rx="84" ry="86" fill="#eebd6a"/>
+          <path d="M70 160 Q62 176 70 192 Q80 184 84 172Z" fill="#eebd6a"/>
+          <path d="M230 160 Q238 176 230 192 Q220 184 216 172Z" fill="#eebd6a"/>
+          <path d="M150 56 C138 76 140 96 150 108 C160 96 162 76 150 56Z" fill="#f6d98c"/>
+          <path d="M96 76 Q108 66 122 74" stroke="#d99a38" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M204 76 Q192 66 178 74" stroke="#d99a38" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="150" cy="178" rx="48" ry="38" fill="#f9e6b9"/>
+          <circle cx="82" cy="164" r="11" fill="#ff8fa0" opacity=".35"/>
+          <circle cx="218" cy="164" r="11" fill="#ff8fa0" opacity=".35"/>
+          <path d="M88 100 Q108 86 128 98" stroke="#b98332" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M172 98 Q192 86 212 100" stroke="#b98332" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="108" cy="128" rx="16" ry="18" fill="#2b1810"/>
+          <ellipse cx="192" cy="128" rx="16" ry="18" fill="#2b1810"/>
+          <circle cx="114" cy="120" r="6.5" fill="#fff"/><circle cx="198" cy="120" r="6.5" fill="#fff"/>
+          <circle cx="102" cy="136" r="3" fill="#fff"/><circle cx="186" cy="136" r="3" fill="#fff"/>
+          <path d="M88 150 Q108 130 128 150 Q108 154 88 150Z" fill="#eebd6a"/>
+          <path d="M172 150 Q192 130 212 150 Q192 154 172 150Z" fill="#eebd6a"/>
+          <path d="M90 148 Q108 133 126 148" stroke="#d99a38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M174 148 Q192 133 210 148" stroke="#d99a38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <g id="accShades" display="none">
+            <rect x="84" y="110" width="50" height="32" rx="13" fill="#2b2b2b"/>
+            <rect x="166" y="110" width="50" height="32" rx="13" fill="#2b2b2b"/>
+            <path d="M134 122 L166 122" stroke="#2b2b2b" stroke-width="6"/>
+            <path d="M84 120 L64 110 M216 120 L236 110" stroke="#2b2b2b" stroke-width="6" stroke-linecap="round"/>
+            <path d="M94 118 q8 -6 16 0" stroke="#6a6a6a" stroke-width="3" fill="none"/>
+            <path d="M176 118 q8 -6 16 0" stroke="#6a6a6a" stroke-width="3" fill="none"/>
+          </g>
+          <path d="M106 186 Q150 200 194 186 Q192 240 150 242 Q108 240 106 186Z" fill="#7d2c33"/>
+          <g id="gTongue">
+            <path d="M126 212 Q150 270 174 212 Q150 202 126 212Z" fill="#f3909f"/>
+            <path d="M150 214 L150 242" stroke="#d9707f" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <path d="M106 186 Q94 186 90 172" stroke="#3a2414" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M194 186 Q206 186 210 172" stroke="#3a2414" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M126 152 Q150 138 174 152 Q172 174 150 178 Q128 174 126 152Z" fill="#2a1a14"/>
+          <ellipse cx="138" cy="152" rx="8" ry="3" fill="#fff" opacity=".35"/>
+          <path d="M150 178 L150 190" stroke="#2a1a14" stroke-width="3.5" stroke-linecap="round"/>
+          <g id="gCrown" display="none">
+            <path d="M108 66 L116 26 L134 50 L150 16 L166 50 L184 26 L192 66 Z" fill="#ffd23f" stroke="#e0a800" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="150" cy="32" r="4.5" fill="#ff7a8a"/>
+          </g>
+          <g id="accHat" display="none">
+            <path d="M118 64 L150 6 L182 64 Z" fill="#7c6cf0"/>
+            <path d="M126 50 L174 50" stroke="#9b8df5" stroke-width="7"/>
+            <circle cx="150" cy="6" r="8" fill="#ff7a8a"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="name">Buimeen 🐾</div>
+    <div class="sub">with 👨🏻 James by your side, always</div>
+    <div class="supporter" id="supporter"></div>
+    <div class="pack" id="pack"></div>
+    <div id="streak" class="big">0</div>
+    <div class="sub">days in a row</div>
+    <div id="message" class="msg"></div>
+    <div id="next" class="sub"></div>
+  </div>
+
+  <div class="card">
+    <h2>🦴 Bone bank</h2>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><span class="bones" id="bonesNow">0</span> <span class="sub">bones to spend</span></div>
+      <div class="meta" id="bonesTotal"></div>
+    </div>
+    <details style="margin-top:10px">
+      <summary>How do I earn bones?</summary>
+      <div class="meta">
+        ✅ Any check-in (even a tough day): +1<br>
+        🐾 On-track day: +3<br>
+        🪑 Meeting: +3<br>
+        🛋️ Counselling / therapy: +2<br>
+        💛 Full 3 gratitudes: +2 (any: +1)<br>
+        🐕‍🦺 Any other self-care action: +1<br>
+        🍲😴 Care + meals + rest all ticked: +1<br>
+        🎮 Daily game: +2<br>
+        🏅 Weekly quests add bonuses!<br>
+        Bones are never taken away for a tough day. Ever.
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>🎮 Daily game with Buimeen</h2>
+    <div class="meta" id="gameInfo"></div>
+    <div class="gamebox" id="gameArea"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 This week's quests</h2>
+    <div class="meta" style="margin-bottom:10px">Monday to Sunday. Bonuses add automatically — past weeks count too.</div>
+    <div id="quests"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎁 Pack gifts</h2>
+    <div class="meta" style="margin-bottom:8px">Every <b>7 on-track days</b> (counted forever — a tough day never deletes them) the pack leaves a gift.</div>
+    <div class="meta" id="giftProgressText"></div>
+    <div class="bar"><i id="giftProgressBar" style="width:0%"></i></div>
+    <div id="giftList" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card">
+    <h2>🏞️ Unlocked scenes</h2>
+    <div class="meta" style="margin-bottom:8px">Moments with your people, earned one week at a time.</div>
+    <div id="sceneList"></div>
+  </div>
+
+  <div class="card">
+    <h2>🛍️ Buimeen's wardrobe</h2>
+    <div class="meta" style="margin-bottom:8px">Spend bones to dress Buimeen up. Tap an owned item to put it on or take it off.</div>
+    <div id="shop"></div>
+  </div>
+
+  <div class="card stats">
+    <div class="stat"><b id="total">0</b><span>🦴 on-track days</span></div>
+    <div class="stat"><b id="longest">0</b><span>🏆 best streak</span></div>
+    <div class="stat"><b id="logged">0</b><span>📅 days logged</span></div>
+    <div class="stat"><b id="actionDays">0</b><span>🐕‍🦺 self-care days</span></div>
+    <div class="stat"><b id="meetCount">0</b><span>🪑 meetings</span></div>
+    <div class="stat"><b id="counsCount">0</b><span>🛋️ counselling</span></div>
+  </div>
+
+  <div class="card">
+    <h2>🐶 Today's check-in</h2>
+    <input type="date" id="date">
+    <div style="margin-top:12px">
+      <label class="chk core"><input type="checkbox" id="p1"> <div class="solo">☀️</div></label>
+      <label class="chk core"><input type="checkbox" id="p2"> <div class="solo">💧</div></label>
+      <label class="chk core"><input type="checkbox" id="p3"> <div class="solo">🌙</div></label>
+      <div class="meta" style="margin:6px 0 12px">All three ticked = an on-track day 🦴 (+3 bones)</div>
+      <label class="chk"><input type="checkbox" id="meds"> <div>Took my daily care</div></label>
+      <label class="chk"><input type="checkbox" id="ate"> <div>Ate regular meals 🍲</div></label>
+      <label class="chk"><input type="checkbox" id="slept"> <div>Rested reasonably well 😴</div></label>
+    </div>
+
+    <div class="section-title">🐕‍🦺 One kind thing I did for myself</div>
+    <select id="actionType">
+      <option value="">Nothing yet today</option>
+      <option>Meeting</option>
+      <option>Counselling / therapy</option>
+      <option>Reading</option>
+      <option>Podcast / audio</option>
+      <option>Walk</option>
+      <option>Other</option>
+    </select>
+    <div class="meta" style="margin:6px 0">🪑 Meeting +3🦴 · 🛋️ Counselling +2🦴 · everything else +1🦴. Small counts: 10 minutes of a podcast, a short walk with Buimeen.</div>
+    <input type="text" id="actionNote" placeholder="What was it?">
+
+    <div class="section-title">💛 3 things I'm grateful for</div>
+    <div class="meta" style="margin-bottom:6px">Numb is fine. Tiny counts: a warm meal, a friend's text, a bed, a wagging tail. (3 = +2🦴)</div>
+    <input type="text" id="g1" placeholder="1.">
+    <input type="text" id="g2" placeholder="2.">
+    <input type="text" id="g3" placeholder="3.">
+
+    <div class="row"><label>🌊 Wave: <b id="cravVal">0</b>/10</label><input type="range" id="craving" min="0" max="10" value="0"></div>
+    <div id="annikkaBox"></div>
+    <div class="row"><label>🎭 Mood: <b id="moodVal">3</b>/5</label><input type="range" id="mood" min="1" max="5" value="3"></div>
+    <div class="meta" style="margin:-4px 0 8px">1 = very low · 3 = steady · 5 = very high or wired</div>
+
+    <textarea id="note" placeholder="Notes (what helped, who I talked to)..."></textarea>
+    <div class="btns">
+      <button id="save">Save today 🐶</button>
+      <button class="sec" id="clear">Clear this day</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🐾 Last 5 weeks</h2>
+    <div class="cal" id="cal"></div>
+    <div class="legend">🐾 = on track · Orange = tough day (not zero!) · Grey = not logged. Tap a day to edit.</div>
+  </div>
+
+  <div class="card">
+    <h2>💛 Gratitude journal</h2>
+    <div class="meta">On a numb day, old entries are proof that good things happened.</div>
+    <div class="btns">
+      <button class="sec" id="randomBtn">Show me a past one</button>
+      <button class="sec" id="exportTxt">Export as text</button>
+    </div>
+    <div class="random" id="randomBox"></div>
+    <details style="margin-top:12px"><summary>See all entries</summary><div id="gratList"></div></details>
+  </div>
+
+  <div class="card">
+    <h2>📖 History</h2>
+    <div id="history"></div>
+  </div>
+
+  <div class="card safety">
+    <h2>🚨 When the wave is too big</h2>
+    👸🏻✨ <b>Annikka's rule:</b> you never ride a 7+ alone.<br><br>
+    1️⃣ Text or call 👨🏻 James — <i>during</i>, not after.<br>
+    2️⃣ Cold water on your face & wrists, then 4-7-8 breathing ×4.<br>
+    3️⃣ Walk Buimeen around the block — waves peak and pass in ~20–30 min.<br>
+    4️⃣ Call your counsellor, or go to a meeting (even online).<br>
+    5️⃣ If you're in crisis or unsafe, call your local emergency number or crisis hotline now.<br><br>
+    You have outlasted <b>every single wave</b> so far. 100% record.
+  </div>
+
+  <div class="card">
+    <h2>💾 Backup & settings</h2>
+    <div class="meta" id="backupInfo"></div>
+    <div class="btns">
+      <button id="copyJson">Copy backup text 📋</button>
+      <button class="sec" id="exportJson">Download file</button>
+    </div>
+    <div class="section-title">📥 Restore from pasted text</div>
+    <div class="meta" style="margin-bottom:6px">Paste a backup you copied before (old or new format both work), then tap restore. It merges — never wipes.</div>
+    <textarea id="pasteBox" placeholder='Paste backup text here, e.g. {"2026-11-01":{...}}'></textarea>
+    <div class="btns"><button id="restoreBtn">Restore pasted backup 💛</button></div>
+    <div class="btns" style="margin-top:14px">
+      <button class="sec" id="changePin">Change passcode</button>
+      <button class="sec" id="lockNow">Lock app 🔒</button>
+    </div>
+    <details style="margin-top:12px">
+      <summary>Danger zone</summary>
+      <div class="meta">This deletes all entries, bones, gifts, games and wardrobe on this device. Copy a backup first.</div>
+      <div class="btns"><button class="danger" id="resetAll">Erase everything</button></div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>👨‍👩‍👧 The Pack</h2>
+    <div class="meta" style="margin-bottom:6px">Tap anyone to read their profile 💛</div>
+    <div id="packList"></div>
+  </div>
+
+  <div class="sub" style="text-align:center;margin-top:4px">Made with 💛 for you, James & the whole pack 🐾</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- storage keys (your data is safe) ---------------- */
+const K_DATA='buimeen_data', K_PIN='buimeen_pin', K_BAK='buimeen_lastBackup',
+      K_SHOP='buimeen_shop', K_GIFT='buimeen_gifts', K_GAME='buimeen_games';
+
+const $=id=>document.getElementById(id);
+const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmt=s=>{const[y,m,d]=s.split('-');return new Date(y,m-1,d).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short',year:'numeric'})};
+function loadJ(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function saveJ(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+let data=loadJ(K_DATA,{});
+let shop=loadJ(K_SHOP,{owned:[],equipped:{}});
+let gifts=loadJ(K_GIFT,{claimed:0});
+let games=loadJ(K_GAME,{});
+
+/* ---------- normalize any entry (supports old backup format) ---------- */
+function normEntry(e){
+  const g=Array.isArray(e.gratitude)?e.gratitude:[];
+  return {
+    p1:!!e.p1,p2:!!e.p2,p3:!!e.p3,meds:!!e.meds,ate:!!e.ate,slept:!!e.slept,
+    actionType:(e.actionType!==undefined?e.actionType:((e.action&&e.action.type)||''))||'',
+    actionNote:(e.actionNote!==undefined?e.actionNote:((e.action&&e.action.note)||''))||'',
+    g1:(e.g1!==undefined?e.g1:(g[0]||''))||'',
+    g2:(e.g2!==undefined?e.g2:(g[1]||''))||'',
+    g3:(e.g3!==undefined?e.g3:(g[2]||''))||'',
+    craving:typeof e.craving==='number'?e.craving:(+e.craving||0),
+    mood:typeof e.mood==='number'?e.mood:(+e.mood||3),
+    note:e.note||''
+  };
+}
+
+/* ---------- your real Oct 31 – Nov 9 backup, baked in (fills ONLY missing days) ---------- */
+const SEED_RAW={"2026-10-31":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":false,"craving":5,"mood":2,"action":{"type":"Walk","note":"Walked buimeen"},"gratitude":["Buimeen","James and friend checking in","Haircut"],"note":""},"2026-11-01":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":false,"slept":false,"craving":1,"mood":2,"action":{"type":"Other","note":"Dinner with friends"},"gratitude":["17 hours of sleep ytd","Finishing the biography of MP","James, Annikka, Fumei and WWC here"],"note":""},"2026-11-02":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":1,"mood":3,"action":{"type":"Other","note":"Pulse check"},"gratitude":["Office folks are normal","Backlog cleared in one morning","Red bean bun"],"note":""},"2026-11-03":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":false,"craving":5,"mood":2,"action":{"type":"Other","note":"slept early"},"gratitude":["Able to sleep early","tranquil night with James and buimeen","Had sth i like for dinner"],"note":"Horrible sleep, nightmare, user reached out, but i slept"},"2026-11-04":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":3,"mood":2,"action":{"type":"Other","note":"Dinner with fd"},"gratitude":["James bought a lot of pet snack","Austin reaching out","Polly’s bday dinner"],"note":"Exhaustion"},"2026-11-05":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":2,"mood":2,"action":{"type":"Counselling / therapy","note":"Meeting with V"},"gratitude":["Meeting with V","Training with Nik","Short drama"],"note":"Still exhausted everyday"},"2026-11-06":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":7,"mood":2,"action":{"type":"Other","note":"Singing class, reached out to Ben"},"gratitude":["Reached out to Ben","Singing class with the guys","Happiness needs Courage"],"note":""},"2026-11-07":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":7,"mood":1,"action":{"type":"Other","note":"Dinner with friend"},"gratitude":["Dinner with friends","Reconnect with CA folks","Sober Friday"],"note":"worried about sister"},"2026-11-08":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":4,"mood":2,"action":{"type":"Other","note":"dinner with friends"},"gratitude":["Chat with my sister","James and Buimeen","Dinner with friends"],"note":"worried"},"2026-11-09":{"p1":true,"p2":true,"p3":true,"meds":true,"ate":true,"slept":true,"craving":8,"mood":2,"action":{"type":"Walk","note":"The Mills"},"gratitude":["13 years with James (and buimeen)","Sober weekend","Laughing at reels"],"note":"Sleepiness night; flashback and racing thought"}};
+let seeded=false;
+for(const d in SEED_RAW){ if(!data[d]){ data[d]=normEntry(SEED_RAW[d]); seeded=true; } }
+if(seeded) saveJ(K_DATA,data);
+
+const isOk=e=>!!(e&&e.p1&&e.p2&&e.p3);
+
+/* ---------------- lock screen ---------------- */
+let pin=localStorage.getItem(K_PIN)||'', buf='', firstPin='', mode=pin?'enter':'create1';
+const dots=$('dots');
+function lockUI(){
+  $('lockSub').textContent = mode==='enter'?'Enter your passcode': mode==='create1'?'Create a 4-digit passcode':'Enter it once more';
+  [...dots.children].forEach((d,i)=>d.classList.toggle('on',i<buf.length));
+}
+function padPress(n){
+  if(n==='⌫'){buf=buf.slice(0,-1);lockUI();return}
+  if(buf.length>=4)return;
+  buf+=n; lockUI();
+  if(buf.length===4){
+    setTimeout(()=>{
+      if(mode==='create1'){firstPin=buf;buf='';mode='create2';$('lockMsg').textContent='';lockUI();}
+      else if(mode==='create2'){
+        if(buf===firstPin){localStorage.setItem(K_PIN,buf);pin=buf;unlock();}
+        else{buf='';firstPin='';mode='create1';$('lockMsg').textContent="Didn't match — let's try again 💛";dots.classList.add('shake');setTimeout(()=>dots.classList.remove('shake'),450);lockUI();}
+      }else{
+        if(buf===pin)unlock();
+        else{buf='';$('lockMsg').textContent='Not quite — Buimeen believes in you 🐾';dots.classList.add('shake');setTimeout(()=>dots.classList.remove('shake'),450);lockUI();}
+      }
+    },120);
+  }
+}
+(function buildPad(){
+  const keys=['1','2','3','4','5','6','7','8','9','','0','⌫'];
+  keys.forEach(k=>{const b=document.createElement('button');
+    if(k===''){b.className='blank'}else{b.textContent=k;if(k==='⌫')b.className='del';b.onclick=()=>padPress(k);}
+    $('pad').appendChild(b);});
+})();
+function unlock(){buf='';$('lockMsg').textContent='';$('lock').classList.add('hide');document.body.classList.remove('locked');renderAll();}
+function lockApp(){document.body.classList.add('locked');$('lock').classList.remove('hide');buf='';mode='enter';lockUI();}
+lockUI();
+
+/* ---------------- bones economy ---------------- */
+function entryBones(e){
+  let b=1;
+  if(isOk(e)) b+=3;
+  if(e.actionType==='Meeting') b+=3;
+  else if(e.actionType==='Counselling / therapy') b+=2;
+  else if(e.actionType) b+=1;
+  const g=[e.g1,e.g2,e.g3].filter(x=>x&&x.trim()).length;
+  if(g===3) b+=2; else if(g>0) b+=1;
+  if(e.meds&&e.ate&&e.slept) b+=1;
+  return b;
+}
+function mondayOf(ds){const[y,m,d]=ds.split('-').map(Number);const dt=new Date(y,m-1,d);const day=(dt.getDay()+6)%7;dt.setDate(dt.getDate()-day);
+  return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');}
+const QUESTS=[
+  {id:'couns',icon:'🛋️',label:'3 counselling sessions this week',target:3,bonus:5},
+  {id:'meet', icon:'🪑',label:'2 meetings this week',target:2,bonus:4},
+  {id:'walk', icon:'🚶',label:'3 walks this week',target:3,bonus:3},
+  {id:'grat', icon:'💛',label:'Gratitude on 5 days',target:5,bonus:4},
+  {id:'check',icon:'✅',label:'Check in all 7 days',target:7,bonus:5},
+];
+function weekCounts(){
+  const w={};
+  for(const ds in data){const e=data[ds],k=mondayOf(ds);
+    w[k]=w[k]||{couns:0,meet:0,walk:0,grat:0,check:0};
+    w[k].check++;
+    if(e.actionType==='Counselling / therapy')w[k].couns++;
+    if(e.actionType==='Meeting')w[k].meet++;
+    if(e.actionType==='Walk')w[k].walk++;
+    if([e.g1,e.g2,e.g3].some(x=>x&&x.trim()))w[k].grat++;
+  }
+  return w;
+}
+const GIFT_LIST=[
+ {icon:'👨🏻',from:'James',title:'A letter from James',bones:2,body:"Thirteen years, and you still surprise me.\n\nI've watched you fight for this week, day by day. I'm not proud of you *despite* the hard days — I'm proud of you because of how you walk through them.\n\nI'm here. Tonight, tomorrow, all of it.\n\n— J 🖤"},
+ {icon:'👧🏻',from:'your niece',title:'A drawing from the cutest niece',bones:2,scene:0,body:"uncle!!!! i drew u and buimeen and uncle james!!! 🐶\n\nmama says ur doing something really hard and really brave. i told my whole class my uncle is the strongest.\n\n(the drawing is on the fridge now. it unlocked a scene!) 🎀"},
+ {icon:'🐶',from:'Buimeen',title:'Buimeen got you a present',bones:0,acc:'bow',body:"WOOF! 🐾\n\nTranslation: Buimeen dragged a BOW TIE out of nowhere and refuses to explain where he got it. It's yours, free — check the wardrobe and put it on him.\n\nHe says you earned it. He also says it's dinner time. It is not dinner time."},
+ {icon:'👩🏻🧑🏻‍🦱',from:'your sister & bro-in-law',title:'From your sister (and the tall quiet one)',bones:2,scene:1,body:"Hey you. 🤗\n\nIt's me (the short warm one) and him (the tall lean one who nodded approvingly while I wrote this).\n\n21 on-track days, counted forever. Hotpot at ours soon — your niece is already planning the seating chart. You're next to her, obviously.\n\nWe love you so much it's embarrassing."},
+ {icon:'👸🏻',from:'Annikka',title:'A letter from Annikka ✨',bones:2,body:"Hi gorgeous — it's the pretty one. (I checked the app credits. It's official. I'm not sorry.)\n\nBut listen: the actual glow-up this year is YOU. Four weeks of showing up. Meetings. Counselling. Telling the truth on tough days.\n\nThat's not luck, that's character. And character, darling, never goes out of style. ✨"},
+ {icon:'🐻',from:'Fumei',title:'A very warm hug from Fumei',bones:2,body:"*Fumei opens his arms. There is no escape. There was never going to be an escape.*\n\nI'm not the tallest of us — but I give the warmest hugs, and I know courage when I see it. You've been brave every single day, even the quiet ones nobody saw.\n\nBear-grade hug issued. It is non-refundable. 🐻"},
+ {icon:'🧘🏻‍♂️',from:'Alvas',title:'A calm note from Alvas',bones:2,scene:2,body:"Breathe in... and out.\n\nSix weeks of on-track days. Not six weeks of perfect days — six weeks of honest ones. That is better.\n\nThe wave rises; you are the ocean. Also I unlocked a morning-walk scene for you. Go look. Then go breathe. 🧘🏻‍♂️"},
+ {icon:'🧍🏻‍♂️',from:'Alvin',title:'A text from Alvin',bones:2,body:"yo.\n\nit's alvin. the smart one. i did the math — twice, obviously.\n\n49 days. that's statistically absurd. you're absurd. keep being absurd.\n\nproud of you, bro. don't make it weird. 🧍🏻‍♂️"},
+ {icon:'📸',from:'the whole pack',title:'The hiking photo',bones:2,scene:3,body:"Remember the hike? James, your sister, your bro-in-law — and you're not IN the photo, because you took it.\n\nThat's you, isn't it. Behind the camera, holding the whole frame together.\n\nThis gift unlocked that scene. Go see your people. 🏞️"},
+ {icon:'👨🏻',from:'James',title:'James again (he insisted)',bones:3,body:"Me again.\n\nTen weeks of on-track days, counted across everything. I did the math twice.\n\nI booked us something for the weekend. No, I'm not telling the app what it is. Wear something nice. Buimeen is NOT invited and he's furious.\n\n— J 🖤"},
+ {icon:'👧🏻',from:'your niece',title:'A voice note (transcribed)',bones:2,body:"🎙️ 'UNCLE. hi hi hi. mama said you got ANOTHER star week. i did a dance. buimeen would have liked the dance. ok i have to go, we're making dumplings, BYEEEE I LOVE YOU' 🥟🎀"},
+ {icon:'🐶',from:'Buimeen',title:'Buimeen declares you Best Human',bones:3,scene:4,body:"WOOF WOOF! 🐾👑\n\n84 on-track days, total, forever. Buimeen has reviewed the evidence and ruled: BEST HUMAN.\n\nBeach-day scene unlocked. He's already rolling in imaginary sand."}
+];
+function giftAt(i){
+  if(i<GIFT_LIST.length)return GIFT_LIST[i];
+  const pool=['👨🏻','👸🏻','👩🏻','👧🏻','🐻','🧘🏻‍♂️','🧍🏻‍♂️','🧑🏻‍🦱','🐶'];
+  return {icon:pool[i%pool.length],from:'the whole pack',title:'Pack cheer #'+(i+1),bones:5,
+    body:"Another 7 on-track days in the bank — "+((i+1)*7)+" total, counted forever.\n\nThe whole pack is standing on the porch cheering embarrassingly loudly. +5 bonus bones. 🦴🎉"};
+}
+const SCENES=[
+ {art:'🖼️👧🏻🖍️🐶🧑🏻👨🏻',cap:"Niece's fridge drawing: you, James & Buimeen (Buimeen is green, don't ask)"},
+ {art:'🍲👩🏻🧑🏻‍🦱👧🏻🧑🏻👨🏻',cap:'Hotpot night at your sister\'s — niece controls the seating chart'},
+ {art:'🌅🧘🏻‍♂️🧑🏻🐶🌳',cap:'Morning walk with Alvas — breathe in, breathe out, Buimeen chases a leaf'},
+ {art:'🏞️👨🏻👩🏻🧑🏻‍🦱📸',cap:'The hike — James, sis & bro-in-law smiling at YOU, the fourth one, behind the camera'},
+ {art:'🏖️🐶🎾🧑🏻👨🏻🌊',cap:'Beach day — Buimeen vs. the ocean. The ocean is winning.'}
+];
+const SHOP=[
+ {id:'shades',icon:'😎',name:'Cool shades',price:10,g:'accShades'},
+ {id:'hat',icon:'🥳',name:'Party hat',price:12,g:'accHat'},
+ {id:'scarf',icon:'🧣',name:'Cozy scarf',price:8,g:'accScarf'},
+ {id:'bow',icon:'🎀',name:'Bow tie',price:8,g:'accBow'},
+ {id:'ball',icon:'🎾',name:'Tennis ball',price:6,g:'accBall'}
+];
+function computeBones(){
+  let earned=0;
+  for(const d in data)earned+=entryBones(data[d]);
+  earned+=Object.keys(games).length*2;
+  const w=weekCounts();
+  for(const k in w)QUESTS.forEach(q=>{if(w[k][q.id]>=q.target)earned+=q.bonus});
+  for(let i=0;i<gifts.claimed;i++)earned+=giftAt(i).bones;
+  let spent=0;
+  shop.owned.forEach(id=>{const it=SHOP.find(s=>s.id===id);if(it&&!(shop.freebies||[]).includes(id))spent+=it.price});
+  return{earned,spent,now:Math.max(0,earned-spent)};
+}
+
+/* ---------------- the pack (profiles) ---------------- */
+const PACK=[
+ ['🧑🏻📸','You','the brave one','The fourth one on the hike — behind the camera, holding the whole frame together.\n\nDoing the hardest, bravest work in this whole app, one honest day at a time. The pack exists because you let them in.'],
+ ['👨🏻','James','lifetime love 🖤','13 years and counting. Tall, strong, steady — your lifetime boyfriend, your rock and your home.\n\nLove and support with no conditions and no expiry date. First call on any wave, every single time.'],
+ ['👸🏻','Annikka','pure energy ✨','All energy, all heart. Supportive, loving, and officially the pretty one (she checked the credits — it stands).\n\nFirst responder on big waves. She will NOT let you ride a 7+ alone. Ever.'],
+ ['👩🏻','Your sister','warm hugs','Small, warm, hugs that fix things. Hotpot powers.\n\nYou worry about her, she worries about you — that\'s just how love works in your family.'],
+ ['🧑🏻‍🦱','Bro-in-law','quiet strength','Tall and lean. Says little, shows up always.\n\nNods supportively but firmly. The nod means everything.'],
+ ['👧🏻🎀','Your niece','Chief Morale Officer','Supercute. Head of the fridge-art department.\n\nTells her whole class her uncle is the strongest. She is factually correct.'],
+ ['🧍🏻‍♂️','Alvin','the smart one 🧠','High-school roommate. The smart one — quick brain, dry humour, allergic to mushy stuff.\n\nDoes the math on your streak twice, then pretends he doesn\'t care. He cares enormously.'],
+ ['🐻','Fumei','the warm & brave one','High-school roommate. Not the tallest — the WARMEST.\n\nCourageous and big-hearted; he walks into the scary stuff first so you never have to go alone. Hugs rated bear-grade. Non-refundable.'],
+ ['🧘🏻‍♂️','Alvas','the calm observer','High-school roommate. Sees everything, panics about nothing.\n\nYour breathing coach. If Alvas is calm — and Alvas is always calm — then you can borrow his calm any time.'],
+ ['🐶','Buimeen','best boy','Bone accountant. Keeper of the streak. Currently wearing whatever you bought him.\n\nLoves you completely, unconditionally, and slightly more at dinner time.']
+];
+
+/* ---------------- daily supporter ---------------- */
+const SUPPORT=[
+ ['👨🏻','James','"Right beside you today. Every hour of it. — J 🖤"'],
+ ['👸🏻','Annikka','"Darling, you + today = a great look. I\'m on wave duty. ✨"'],
+ ['👩🏻','your sister','"Warm hug sent ahead of schedule. Eat something nice today. 🤗"'],
+ ['🧑🏻‍🦱','your bro-in-law','*nods supportively but firmly*'],
+ ['👧🏻','your niece','"UNCLE!! you are the STRONGEST!! i told everyone!! 🎀"'],
+ ['🧍🏻‍♂️','Alvin','"statistically speaking, you\'ve got this. i checked twice."'],
+ ['🐻','Fumei','"Warmest bro reporting for hug duty. Be brave with me today."'],
+ ['🧘🏻‍♂️','Alvas','"One breath at a time. I\'m watching over today. Calmly."'],
+ ['🐶','Buimeen','"WOOF. (Translation: you are my favourite human.)"']
+];
+function todaySupporter(){
+  const d=new Date();
+  const doy=Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);
+  return SUPPORT[doy%SUPPORT.length];
+}
+
+/* ---------------- Annikka support ---------------- */
+function annikkaLive(v){
+  const box=$('annikkaBox');
+  if(v>=7){
+    box.style.display='block';
+    box.innerHTML="👸🏻✨ <b>Annikka's here. Don't you dare ride a "+v+"/10 alone.</b>\n"+
+      "This is a big wave, not a command — waves peak and pass in ~20–30 min.\n\n"+
+      "① 🧊 Cold water on face & wrists\n"+
+      "② 📱 Text 👨🏻 James — <i>now</i>, not after\n"+
+      "③ 🚶 Walk Buimeen around the block\n"+
+      "④ 🫁 4-7-8 breathing ×4 (Alvas-approved 🧘🏻‍♂️)\n"+
+      "⑤ Heavy? Counsellor, a meeting, or your crisis line\n\n"+
+      "You've outlasted <b>every wave so far</b>. 100% record. I'm staying right here. ✨";
+  } else box.style.display='none';
+}
+function annikkaToughDay(){
+  showModal('👸🏻','A note from Annikka ✨',
+    "Hey. It's me, the pretty one — and right now, the stubborn one.\n\n"+
+    "You opened this app on a HARD day and told the truth. That's not failure, darling — that's courage with good lighting.\n\n"+
+    "Your gifts are safe. Your bones are safe. Your streak record is safe. Tomorrow is a brand-new page and I've already picked out its outfit.\n\n"+
+    "Tonight: water, food, text James, let Buimeen sit on your feet.\n\n+1 🦴 for honesty. We love you. All of us. ✨");
+}
+
+/* ---------------- modal / toast / confetti ---------------- */
+function showModal(icon,title,body){$('modalIcon').textContent=icon;$('modalTitle').textContent=title;$('modalBody').textContent=body;$('modal').classList.add('show');}
+$('modalClose').onclick=()=>$('modal').classList.remove('show');
+$('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('show')};
+let toastT;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+function confetti(){const em=['🎉','🦴','🐾','💛','✨','🎾'];for(let i=0;i<24;i++){const s=document.createElement('span');s.className='conf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=(Math.random()*.8)+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3400);}}
+
+/* ---------------- daily game ---------------- */
+function dayHash(ds){let h=0;for(const c of ds)h=(h*31+c.charCodeAt(0))%997;return h;}
+function gameDone(){
+  const ds=todayStr();
+  if(!games[ds]){games[ds]=true;saveJ(K_GAME,games);confetti();toast('Game complete! +2 🦴');}
+  $('gameArea').dataset.built='';renderAll();
+}
+function renderGame(){
+  const ds=todayStr(), type=dayHash(ds)%5, done=!!games[ds];
+  const names=['🫁 Steady Breath','🎾 Fetch!','🧩 Word of the Day','🌊 Ride the Wave','💛 Paw Picks'];
+  $('gameInfo').innerHTML='Today: <b>'+names[type]+'</b>'+(done?' · completed ✅ +2🦴 (replay just for fun)':' · finish it for +2🦴');
+  const A=$('gameArea'), key=ds+'_'+type+'_'+done;
+  if(A.dataset.built===key)return; A.dataset.built=key;
+
+  if(type===0){ /* breath */
+    A.innerHTML='<div style="text-align:center"><div id="brPhase" style="font-size:1.25rem;font-weight:800;min-height:2rem">3 rounds of 4-7-8 with Alvas 🧘🏻‍♂️</div><div id="brCount" style="font-size:2.6rem;font-weight:800;color:var(--accent2);min-height:3.4rem"></div><div class="btns" style="justify-content:center"><button id="brStart">Start breathing</button></div></div>';
+    $('brStart').onclick=function(){
+      this.disabled=true;
+      const steps=[];for(let r=0;r<3;r++)steps.push(['Breathe in… 🌬️',4],['Hold… ✋',7],['Breathe out… 😮‍💨',8]);
+      let si=0,c=steps[0][1];
+      const show=()=>{$('brPhase').textContent=steps[si][0];$('brCount').textContent=c;};
+      show();
+      const iv=setInterval(()=>{c--;
+        if(c<=0){si++;
+          if(si>=steps.length){clearInterval(iv);$('brPhase').textContent='Beautiful. Alvas nods, calmly. 🧘🏻‍♂️';$('brCount').textContent='💛';gameDone();return}
+          c=steps[si][1];}
+        show();},1000);
+    };
+  }
+  else if(type===1){ /* fetch */
+    A.innerHTML='<div class="meta" style="text-align:center">Tap the ball 10 times — Buimeen is chasing! 🐶</div><div id="fetchBox" style="position:relative;height:180px;background:#fff;border-radius:16px;margin-top:8px;overflow:hidden"><button id="ball" style="position:absolute;left:45%;top:38%;min-height:0;width:56px;height:56px;border-radius:50%;padding:0;font-size:1.6rem;background:#f1fbf5;color:var(--text)">🎾</button></div><div style="text-align:center;font-weight:800;margin-top:6px"><span id="fetchN">0</span>/10 🐾</div>';
+    let n=0;
+    $('ball').onclick=function(){
+      n++;$('fetchN').textContent=n;
+      this.style.left=(Math.random()*72+6)+'%';this.style.top=(Math.random()*62+6)+'%';
+      if(n>=10){this.textContent='🐶';this.disabled=true;gameDone();}
+    };
+  }
+  else if(type===2){ /* word */
+    const WORDS=['BREATHE','COURAGE','STEADY','ONWARD','BRAVE','SUNRISE','PATIENCE','TODAY','GROWTH','TRUST'];
+    const word=WORDS[dayHash(ds)%WORDS.length];
+    const arr=word.split('');
+    for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+    A.innerHTML='<div class="meta" style="text-align:center">A word the pack wants you to carry today. Tap the letters in order. 🧩</div><div id="wProg" style="text-align:center;font-size:1.6rem;font-weight:800;letter-spacing:5px;min-height:2.4rem;margin-top:6px;color:var(--accent2)">_</div><div class="letters" id="wLetters"></div>';
+    let idx=0;
+    arr.forEach(L=>{const b=document.createElement('button');b.textContent=L;
+      b.onclick=()=>{ if(b.disabled)return;
+        if(b.textContent===word[idx]){b.disabled=true;idx++;$('wProg').textContent=word.slice(0,idx);
+          if(idx===word.length){$('wProg').textContent=word+' 💛';gameDone();}}
+        else toast('Not that one — try another 🐾');};
+      $('wLetters').appendChild(b);});
+  }
+  else if(type===3){ /* wave */
+    A.innerHTML='<div class="meta" style="text-align:center">Big feelings are waves. Watch this one rise, peak, and pass — don\'t fight it. Just stay. 🌊</div><div class="bar" style="height:18px;margin-top:10px"><i id="waveBar" style="width:0%"></i></div><div id="waveMsg" style="text-align:center;font-weight:800;min-height:1.7rem;margin-top:6px"></div><div class="btns" style="justify-content:center"><button id="waveStart">Start the wave 🌊</button></div>';
+    $('waveStart').onclick=function(){
+      this.disabled=true;let v=0,up=true;
+      const iv=setInterval(()=>{
+        v+=up?1.4:-1.4;
+        if(v>=100){v=100;up=false;}
+        $('waveBar').style.width=v+'%';
+        $('waveMsg').textContent= up? (v<45?'rising… just breathe':v<85?'getting big — stay with it':'peak. it cannot get higher.')
+                                    : (v>50?'passing… see? already smaller':v>10?'almost gone…':'…');
+        if(!up&&v<=0){clearInterval(iv);$('waveMsg').textContent='It passed. It always does. 💛';gameDone();}
+      },110);
+    };
+  }
+  else{ /* paw picks */
+    const ITEMS=[['Texting a friend back',1],['Doomscrolling at 2am',0],['A walk with Buimeen',1],['Skipping meals',0],['A glass of water',1],['Bottling it all up',0],['Going to bed on time',1],['Cancelling on everyone',0],['Ten minutes of sunlight',1]];
+    const start=dayHash(ds)%ITEMS.length, picks=[];
+    for(let i=0;i<5;i++)picks.push(ITEMS[(start+i*2)%ITEMS.length]);
+    A.innerHTML='<div class="meta" style="text-align:center">Buimeen holds up a card. Does this fill your bowl, or empty it? 🐶</div><div id="ppCard" style="text-align:center;font-size:1.2rem;font-weight:800;min-height:3.2rem;margin:10px 0;background:#fff;border-radius:14px;padding:14px"></div><div class="btns" style="justify-content:center"><button id="ppYes">💛 Fills it</button><button class="sec" id="ppNo">🌫️ Empties it</button></div><div class="meta" style="text-align:center;margin-top:8px" id="ppScore"></div>';
+    let i=0,score=0;
+    const show=()=>{$('ppCard').textContent=picks[i][0];$('ppScore').textContent=(i+1)+'/5';};
+    const answer=yes=>{
+      if((yes?1:0)===picks[i][1]){score++;toast('🐾 Buimeen agrees!');}else toast('Hmm — Buimeen tilts his head 🐶');
+      i++;
+      if(i>=5){$('ppCard').textContent='Done! '+score+'/5 — Buimeen approves of your instincts. 💛';$('ppYes').disabled=true;$('ppNo').disabled=true;gameDone();}
+      else show();
+    };
+    $('ppYes').onclick=()=>answer(true);$('ppNo').onclick=()=>answer(false);
+    show();
+  }
+}
+
+/* ---------------- render ---------------- */
+function streakCalc(){
+  let cur=0;const t=new Date();
+  for(let i=0;;i++){const d=new Date(t);d.setDate(t.getDate()-i);
+    const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const e=data[ds];
+    if(isOk(e))cur++;
+    else if(i===0&&!e)continue;
+    else break;}
+  const days=Object.keys(data).sort();let best=0,run=0,prev=null;
+  days.forEach(ds=>{if(isOk(data[ds])){if(prev){const p=new Date(prev),c=new Date(ds);run=((c-p)/86400000===1)?run+1:1}else run=1;prev=ds;best=Math.max(best,run)}else{prev=null;run=0}});
+  return{cur,best};
+}
+function renderAll(){
+  const days=Object.keys(data).sort();
+  const okTotal=days.filter(d=>isOk(data[d])).length;
+  const {cur,best}=streakCalc();
+  const b=computeBones();
+
+  $('streak').textContent=cur;$('streak').classList.toggle('zero',cur===0);
+  $('total').textContent=okTotal;$('longest').textContent=best;$('logged').textContent=days.length;
+  $('actionDays').textContent=days.filter(d=>data[d].actionType).length;
+  $('meetCount').textContent=days.filter(d=>data[d].actionType==='Meeting').length;
+  $('counsCount').textContent=days.filter(d=>data[d].actionType==='Counselling / therapy').length;
+  $('bonesNow').textContent=b.now;
+  $('bonesTotal').textContent='lifetime earned: '+b.earned+' 🦴';
+
+  const sup=todaySupporter();
+  $('supporter').innerHTML='Today <b>'+sup[0]+' '+sup[1]+'</b> is on support duty:<br>'+sup[2];
+
+  const msgs= cur===0?["Today is day one, and the whole pack is on the porch with you. 🐾"]
+    : cur<3?["Buimeen's tail is going. Keep going. 🐶","One paw in front of the other. 🐾"]
+    : cur<7?["The pack can smell a bandana coming... 🔴","Look at you GO. 💛"]
+    : cur<30?["Bandana unlocked! Buimeen is insufferable about it. 🔴🐶","Annikka says you're glowing. She would know. ✨"]
+    : ["👑 CROWN STREAK. James is telling strangers about you.","Royalty. Actual royalty. 👑"];
+  $('message').textContent=msgs[cur%msgs.length];
+
+  const toGift=7-(okTotal%7);
+  $('next').textContent= okTotal%7===0&&okTotal>0 ? 'Gift threshold reached! 🎁' : toGift+' on-track day'+(toGift>1?'s':'')+' until the next pack gift 🎁';
+
+  const members=['👨🏻','👸🏻','👩🏻','🧑🏻‍🦱','👧🏻','🧍🏻‍♂️','🐻','🧘🏻‍♂️','📸'];
+  $('pack').textContent=members.slice(0,Math.min(members.length,1+Math.floor(cur/2))).join(' ')+(cur>0?' 💛':'');
+
+  document.getElementById('gBandana').setAttribute('display',cur>=7?'inline':'none');
+  document.getElementById('gCrown').setAttribute('display',cur>=30?'inline':'none');
+  SHOP.forEach(it=>document.getElementById(it.g).setAttribute('display',shop.equipped[it.id]?'inline':'none'));
+
+  renderGame();renderQuests();renderGifts(okTotal);renderScenes();renderShop(b.now);renderPack();
+  renderCal();renderHistory();renderGrat();renderBackupInfo();
+}
+function renderQuests(){
+  const w=weekCounts()[mondayOf(todayStr())]||{couns:0,meet:0,walk:0,grat:0,check:0};
+  $('quests').innerHTML=QUESTS.map(q=>{
+    const n=Math.min(w[q.id]||0,q.target),done=n>=q.target;
+    return '<div class="quest'+(done?' done':'')+'"><div class="qt"><span>'+q.icon+' '+q.label+(done?' — done! 🏅':'')+'</span><span>'+n+'/'+q.target+' · +'+q.bonus+'🦴</span></div>'+
+      '<div class="bar"><i style="width:'+(n/q.target*100)+'%"></i></div></div>';
+  }).join('');
+}
+function renderGifts(okTotal){
+  const avail=Math.floor(okTotal/7), into=okTotal%7;
+  $('giftProgressText').textContent=into+'/7 toward gift #'+(gifts.claimed+1);
+  $('giftProgressBar').style.width=(avail>gifts.claimed?100:into/7*100)+'%';
+  const ready=avail>gifts.claimed;
+  $('giftBanner').style.display=ready?'block':'none';
+  let html='';
+  const showN=Math.max(gifts.claimed+2,4);
+  for(let i=0;i<showN;i++){
+    const g=giftAt(i);
+    const st= i<gifts.claimed?'claimed': (i<avail?'ready':'locked');
+    html+='<div class="gift '+(st==='ready'?'ready':st==='locked'?'locked':'')+'">'+
+      '<div class="gi">'+(st==='locked'?'🎁':g.icon)+'</div><div class="gb"><b>'+(st==='locked'?'Gift #'+(i+1)+' — a surprise from the pack':g.title)+'</b>'+
+      '<span>'+((i+1)*7)+' on-track days'+(st==='claimed'?' · opened 💛':st==='ready'?' · ready!':'')+'</span></div>'+
+      (st==='ready'?'<button data-open="'+i+'">Open 🎁</button>':st==='claimed'?'<button class="sec" data-open="'+i+'">Re-read</button>':'')+
+      '</div>';
+  }
+  $('giftList').innerHTML=html;
+  $('giftList').querySelectorAll('[data-open]').forEach(btn=>btn.onclick=()=>openGift(+btn.dataset.open));
+}
+function openGift(i){
+  const g=giftAt(i);
+  const okTotal=Object.keys(data).filter(d=>isOk(data[d])).length;
+  const avail=Math.floor(okTotal/7);
+  if(i>=gifts.claimed){
+    if(i>=avail)return;
+    gifts.claimed=i+1;saveJ(K_GIFT,gifts);
+    if(g.acc&&!shop.owned.includes(g.acc)){shop.owned.push(g.acc);shop.freebies=shop.freebies||[];shop.freebies.push(g.acc);saveJ(K_SHOP,shop);}
+    confetti();
+  }
+  showModal(g.icon,g.title+'  ·  from '+g.from,g.body+(g.bones?'\n\n+'+g.bones+' 🦴':''));
+  renderAll();
+}
+$('giftBannerBtn').onclick=()=>openGift(gifts.claimed);
+function renderScenes(){
+  const unlocked=[];
+  for(let i=0;i<gifts.claimed&&i<GIFT_LIST.length;i++){const g=GIFT_LIST[i];if(g.scene!==undefined)unlocked.push(SCENES[g.scene]);}
+  $('sceneList').innerHTML= unlocked.length? unlocked.map(s=>'<div class="scene"><div class="art">'+s.art+'</div><div class="cap">'+s.cap+'</div></div>').join('')
+    : '<div class="meta">No scenes yet — your first ones are inside the gifts 🎁</div>';
+}
+function renderShop(now){
+  $('shop').innerHTML=SHOP.map(it=>{
+    const owned=shop.owned.includes(it.id),on=!!shop.equipped[it.id];
+    const free=shop.freebies&&shop.freebies.includes(it.id);
+    return '<div class="shopitem"><div class="si">'+it.icon+'</div><div class="sb">'+it.name+'<small>'+(owned?(free?'gift from Buimeen 💛':'owned'):it.price+' 🦴')+'</small></div>'+
+      '<button class="'+(on?'on':owned?'sec':'')+'" data-shop="'+it.id+'" '+(!owned&&now<it.price?'disabled':'')+'>'+
+      (owned?(on?'Wearing ✓':'Put on'):'Buy')+'</button></div>';
+  }).join('');
+  $('shop').querySelectorAll('[data-shop]').forEach(btn=>btn.onclick=()=>{
+    const id=btn.dataset.shop,it=SHOP.find(s=>s.id===id);
+    if(!shop.owned.includes(id)){
+      if(computeBones().now<it.price)return;
+      shop.owned.push(id);shop.equipped[id]=true;toast(it.icon+' '+it.name+' purchased! Buimeen is thrilled.');confetti();
+    } else shop.equipped[id]=!shop.equipped[id];
+    saveJ(K_SHOP,shop);renderAll();
+  });
+}
+function renderPack(){
+  $('packList').innerHTML=PACK.map((p,i)=>'<div class="pal" data-pal="'+i+'"><div class="av">'+p[0]+'</div><div><b>'+p[1]+'</b><span>'+p[2]+'</span></div><div class="go">›</div></div>').join('');
+  $('packList').querySelectorAll('[data-pal]').forEach(el=>el.onclick=()=>{
+    const p=PACK[+el.dataset.pal];
+    showModal(p[0],p[1]+' · '+p[2],p[3]);
+  });
+}
+function renderCal(){
+  const c=$('cal');c.innerHTML='';const t=new Date();
+  for(let i=34;i>=0;i--){const d=new Date(t);d.setDate(t.getDate()-i);
+    const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const e=data[ds];const cell=document.createElement('div');
+    cell.className='cell '+(isOk(e)?'ok':e?'slip':'none')+(i===0?' now':'');
+    cell.textContent=isOk(e)?'🐾':d.getDate();
+    cell.onclick=()=>{$('date').value=ds;loadDay();window.scrollTo({top:$('date').getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});};
+    c.appendChild(cell);}
+}
+function renderHistory(){
+  const days=Object.keys(data).sort().reverse();
+  $('history').innerHTML= days.length? days.slice(0,40).map(ds=>{
+    const e=data[ds],ok=isOk(e);
+    const g=[e.g1,e.g2,e.g3].filter(x=>x&&x.trim());
+    return '<div class="hist"><div class="top"><b>'+fmt(ds)+'</b><span class="tag '+(ok?'ok':'slip')+'">'+(ok?'🐾 on track':'tough day 💛')+'</span></div>'+
+      '<div class="meta">mood '+e.mood+'/5 · wave '+e.craving+'/10'+(e.actionType?' · '+e.actionType+(e.actionNote?': '+e.actionNote:''):'')+' · +'+entryBones(e)+'🦴</div>'+
+      (g.length?'<div class="grat">💛 '+g.join(' · ')+'</div>':'')+
+      (e.note?'<div class="note">'+e.note.replace(/</g,'&lt;')+'</div>':'')+
+      '<button class="danger" data-del="'+ds+'">delete</button></div>';
+  }).join('') : '<div class="meta">No entries yet — today is a lovely day one. 🐾</div>';
+  $('history').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    if(b.textContent!=='really delete?'){b.textContent='really delete?';setTimeout(()=>b.textContent='delete',2500);return}
+    delete data[b.dataset.del];saveJ(K_DATA,data);renderAll();toast('Entry removed.');});
+}
+function renderGrat(){
+  const days=Object.keys(data).sort().reverse();
+  const rows=days.map(ds=>{const g=[data[ds].g1,data[ds].g2,data[ds].g3].filter(x=>x&&x.trim());return g.length?'<div class="hist"><b>'+fmt(ds)+'</b><div class="grat">💛 '+g.join('<br>💛 ')+'</div></div>':''}).filter(Boolean);
+  $('gratList').innerHTML=rows.length?rows.join(''):'<div class="meta">Nothing yet — tonight\'s three tiny things will live here.</div>';
+}
+$('randomBtn').onclick=()=>{
+  const pool=Object.keys(data).filter(ds=>[data[ds].g1,data[ds].g2,data[ds].g3].some(x=>x&&x.trim()));
+  const box=$('randomBox');
+  if(!pool.length){box.style.display='block';box.textContent='No gratitude entries yet — add tonight\'s and future-you will thank you. 💛';return}
+  const ds=pool[Math.floor(Math.random()*pool.length)],e=data[ds];
+  box.style.display='block';
+  box.innerHTML='<b>'+fmt(ds)+'</b><br>💛 '+[e.g1,e.g2,e.g3].filter(x=>x&&x.trim()).join('<br>💛 ');
+};
+$('exportTxt').onclick=()=>{
+  let out='Buimeen gratitude journal\n\n';
+  Object.keys(data).sort().forEach(ds=>{const g=[data[ds].g1,data[ds].g2,data[ds].g3].filter(x=>x&&x.trim());if(g.length)out+=fmt(ds)+'\n - '+g.join('\n - ')+'\n\n'});
+  download('buimeen-gratitude.txt',out,'text/plain');
+};
+
+/* ---------------- check-in ---------------- */
+$('date').value=todayStr();
+function loadDay(){
+  const e=data[$('date').value]||{};
+  ['p1','p2','p3','meds','ate','slept'].forEach(k=>$(k).checked=!!e[k]);
+  $('actionType').value=e.actionType||'';$('actionNote').value=e.actionNote||'';
+  $('g1').value=e.g1||'';$('g2').value=e.g2||'';$('g3').value=e.g3||'';
+  $('craving').value=e.craving??0;$('mood').value=e.mood??3;$('note').value=e.note||'';
+  $('cravVal').textContent=$('craving').value;$('moodVal').textContent=$('mood').value;
+  annikkaLive(+$('craving').value);
+}
+$('date').onchange=loadDay;
+$('craving').oninput=()=>{$('cravVal').textContent=$('craving').value;annikkaLive(+$('craving').value)};
+$('mood').oninput=()=>$('moodVal').textContent=$('mood').value;
+$('save').onclick=()=>{
+  const ds=$('date').value;if(!ds)return;
+  const e={p1:$('p1').checked,p2:$('p2').checked,p3:$('p3').checked,
+    meds:$('meds').checked,ate:$('ate').checked,slept:$('slept').checked,
+    actionType:$('actionType').value,actionNote:$('actionNote').value.trim(),
+    g1:$('g1').value.trim(),g2:$('g2').value.trim(),g3:$('g3').value.trim(),
+    craving:+$('craving').value,mood:+$('mood').value,note:$('note').value.trim()};
+  data[ds]=e;saveJ(K_DATA,data);
+  const bn=entryBones(e);
+  renderAll();
+  if(isOk(e)){confetti();toast('🐾 On-track day saved! +'+bn+' 🦴'+(e.actionType==='Meeting'?' (meeting bonus!)':e.actionType==='Counselling / therapy'?' (counselling bonus!)':''));}
+  else{toast('Saved. +'+bn+' 🦴 for honesty. 💛');annikkaToughDay();}
+};
+$('clear').onclick=()=>{const ds=$('date').value;if(data[ds]){delete data[ds];saveJ(K_DATA,data);loadDay();renderAll();toast('Day cleared.')}};
+
+/* ---------------- backup / restore ---------------- */
+function download(name,content,type){
+  const blob=new Blob([content],{type});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function backupText(){return JSON.stringify({data,shop,gifts,games});}
+function markBackup(){localStorage.setItem(K_BAK,Date.now());renderBackupInfo();}
+$('exportJson').onclick=()=>{download('buimeen-backup-'+todayStr()+'.json',JSON.stringify({data,shop,gifts,games},null,1),'application/json');markBackup();toast('Backup file saved 💾');};
+function copyBackup(){
+  const txt=backupText();
+  const ok=()=>{markBackup();toast('Backup copied! Paste it somewhere safe (notes, email to yourself…) 📋');};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok).catch(()=>{$('pasteBox').value=txt;$('pasteBox').select();toast('Copy blocked — backup placed in the box below, long-press to copy 💛');});
+  }else{$('pasteBox').value=txt;$('pasteBox').select();toast('Backup placed in the box below — long-press to copy 💛');}
+}
+$('copyJson').onclick=copyBackup;
+$('reminderBtn').onclick=copyBackup;
+$('restoreBtn').onclick=()=>{
+  const raw=$('pasteBox').value.trim();
+  if(!raw){toast('Paste your backup text in the box first 🐾');return}
+  try{
+    const j=JSON.parse(raw);
+    const d=j.data||j;
+    let n=0;
+    for(const k in d){ if(/^\d{4}-\d{2}-\d{2}$/.test(k)){ data[k]=normEntry(d[k]); n++; } }
+    if(j.shop)shop=j.shop; if(j.gifts)gifts=j.gifts; if(j.games)games=j.games;
+    saveJ(K_DATA,data);saveJ(K_SHOP,shop);saveJ(K_GIFT,gifts);saveJ(K_GAME,games);
+    $('pasteBox').value='';
+    renderAll();loadDay();confetti();toast('Restored '+n+' days 💛 Welcome back!');
+  }catch(err){toast('Hmm, that text didn\'t parse — make sure the whole backup was pasted 🐾')}
+};
+function renderBackupInfo(){
+  const last=+localStorage.getItem(K_BAK)||0;
+  $('backupInfo').textContent=last?('Last backup: '+new Date(last).toLocaleDateString()):'No backup saved yet on this device.';
+  const stale=!last||((Date.now()-last)/86400000>7);
+  $('reminder').style.display=stale?'block':'none';
+  $('reminderText').textContent=last?'It\'s been over a week since your last backup.':'You haven\'t saved a backup yet.';
+}
+$('changePin').onclick=()=>{localStorage.removeItem(K_PIN);pin='';mode='create1';lockApp();};
+$('lockNow').onclick=lockApp;
+$('resetAll').onclick=function(){
+  if(this.textContent!=='Tap again to erase everything'){this.textContent='Tap again to erase everything';setTimeout(()=>this.textContent='Erase everything',3000);return}
+  data={};shop={owned:[],equipped:{}};gifts={claimed:0};games={};
+  saveJ(K_DATA,data);saveJ(K_SHOP,shop);saveJ(K_GIFT,gifts);saveJ(K_GAME,games);
+  loadDay();renderAll();toast('Everything erased. Fresh page. 🐾');this.textContent='Erase everything';
+};
+
+/* ---------------- misc ---------------- */
+$('dog').onclick=()=>{const d=$('dog');d.classList.remove('bounce');void d.offsetWidth;d.classList.add('bounce');
+  toast(['Woof! 🐾','*happy tail noises* 🐶','Buimeen loves you. That\'s it. That\'s the message. 💛','BORK! (+0 🦴, infinite love)'][Math.floor(Math.random()*4)]);};
+(function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');
+x.fillStyle='#ffe9c7';x.fillRect(0,0,180,180);x.font='120px serif';x.textAlign='center';x.textBaseline='middle';x.fillText('🐶',90,98);
+$('touchIcon').href=c.toDataURL('image/png');}catch(e){}})();
+
+loadDay();
+</script>
+</body>
+</html>
